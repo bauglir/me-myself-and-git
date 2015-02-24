@@ -477,6 +477,28 @@ Merge made by the 'recursive' strategy.
             </aside>
           </section>
         </section>
+
+        <section>
+          <h1>Tips &amp; Tricks</h1>
+
+          <section>
+            <ul>
+              <li>Never rebase 'published' commits</li>
+              <li>Branches are just labels for commit hashes</li>
+              <li>Git only tracks files, to include empty directories put a '.gitkeep' file in them</li>
+              <li>Adding <code class="bash">-p</code> to most operations allows more granular control (i.e. within files)</li>
+              <li>Get comfortable with the command line, for GUI <a href="https://www.atlassian.com/software/sourcetree/">SourceTree</a> seems nice</li>
+            </ul>
+          </section>
+          <section>
+            <ul>
+              <li>In case SSH is blocked use <code class="bash">git config --global url.https://.insteadOf git://</code></li>
+              <li><code class="bash">git config --global color.ui true</code> forces pretty colors</li>
+              <li><code class="bash">git config --global pull.rebase true</code> forces a pull to always 'rebase' instead of 'merge'</li>
+              <li><code class="bash">merge</code>, <code class="bash">rebase</code>, etc. have an <code class="bash">--abort</code> flag</li>
+            </ul>
+          </section>
+        </section>
       </div>
 
     </div>
