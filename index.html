@@ -72,6 +72,7 @@
             <ul>
               <li>Why Git?</li>
               <li>Structure</li>
+              <li>Git in Action</li>
             </ul>
           </section>
         </section>
@@ -156,8 +157,192 @@
                 <li>Changes are added to the stage</li>
                 <li>Staged changes are reset back to the working copy</li>
                 <li>Staged changes are comitted to the version database</li>
+                <li>
+                  Some 'exceptions to the rule' exist, e.g. new files being
+                  added to the stage are removed using
+                  <code class="bash">
+                    git rm --cached
+                  </code>
+                </li>
               </ul>
             </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Git in Action</h1>
+
+            <div class="fragment">
+              <h2>Create a repository</h2>
+              <pre><code class="bash">$ git init my-project && cd my-project
+Initialized empty Git repository in /home/jkraak/Projects/my-project/.git/
+</code></pre>
+            </div>
+
+            <div class="fragment">
+              <h2>Or clone an existing one</h2>
+              <pre><code class="bash">$ git clone git@github.com:bauglir/me-myself-and-git.git
+Cloning into 'me-myself-and-git'...
+remote: Counting objects: 7127, done.
+remote: Total 7127 (delta 0), reused 0 (delta 0), pack-reused 7127
+Receiving objects: 100% (7127/7127), 5.38 MiB | 2.52 MiB/s, done.
+Resolving deltas: 100% (3767/3767), done.
+Checking connectivity... done.
+</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Add some files</h2>
+
+            <pre class="fragment"><code class="bash">$ echo 'foo' > foo.txt</code></pre>
+            <pre class="fragment"><code class="bash">$ echo 'bar' > bar.txt</code></pre>
+            <pre class="fragment"><code class="bash">$ git status
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add < file>..." to include in what will be committed)
+
+          bar.txt
+          foo.txt
+
+nothing added to commit but untracked files present (use "git add" to track)</code></pre>
+
+            <p class="fragment">
+              <code>git status</code> is your friend! It provides hints on what to do next
+            </p>
+          </section>
+
+          <section>
+            <pre><code class="bash">$ git add foo.txt</code></pre>
+            <pre class="fragment"><code class="bash">$ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached < file>..." to unstage)
+
+        new file:   foo.txt
+        new file:   bar.txt</code></pre>
+            <pre class="fragment"><code>$ git commit -m 'Add foo and bar literature'
+[master (root-commit) 3f91579] Add foo and bar literature
+ 2 files changed, 2 insertions(+)
+ create mode 100644 bar.txt
+ create mode 100644 foo.txt</code></pre>
+
+            <aside class="notes">
+              <p>
+                Typically the commit message is not directly entered at the
+                command line. When leaving off the <code>-m</code> flag your
+                default editor will be opened to provide a commit message.
+              </p>
+              <p>Note the hashes, we'll talk about those later</p>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Making Changes</h2>
+
+            <pre><code class="bash">$ echo 'baz' >> foo.txt</code></pre>
+            <pre class="fragment"><code class="bash">On branch master
+Changes not staged for commit:
+  (use "git add < file>..." to update what will be committed)
+  (use "git checkout -- < file>..." to discard changes in working directory)
+
+        modified:   foo.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")</code></pre>
+
+            <pre class="fragment"><code class="bash">$ git diff
+diff --git a/foo.txt b/foo.txt
+index 257cc56..0c071e1 100644
+--- a/foo.txt
++++ b/foo.txt
+@@ -1 +1,2 @@
+ foo
+ +baz</code></pre>
+
+            <pre class="fragment"><code class="bash">$ git add -u && git commit -m 'Add baz reference'
+[master e981856] Add baz reference
+ 1 file changed, 1 insertion(+)</code></pre>
+
+            <aside class="notes">
+              <p>
+                Note the <code>-u</code> which only adds changes to files
+                already being tracked
+              </p>
+              <p>By repeating this process the history is slowly built up</p>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Viewing the history</h2>
+
+            <pre><code class="bash">$ git log
+commit e9818560edc7f0cf41317f15eec28167e507a3f7
+Author: Joris Kraak < me@joriskraak.nl>
+Date:   Tue Feb 24 12:20:25 2015 +0100
+
+    Add baz reference
+
+commit 3f91579623ef93cde0ebf5300b6da99bd70fa835
+Author: Joris Kraak < me@joriskraak.nl>
+Date:   Tue Feb 24 12:08:31 2015 +0100
+
+    Add foo and bar literature</code></pre>
+
+          </section>
+
+          <section>
+            <h2>Undoing Mistakes</h2>
+
+            <pre><code class="bash">$ git rm *
+rm 'bar.txt'
+rm 'foo.txt'</code></pre>
+
+            <pre class="fragment"><code class="bash">$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD < file>..." to unstage)
+
+          deleted:    bar.txt
+          deleted:    foo.txt
+</code></pre>
+
+            <pre class="fragment"><code class="bash">$ git reset HEAD foo.txt
+Unstaged changes after reset:
+D       foo.txt</code></pre>
+
+            </section>
+            <section>
+            <pre><code class="bash">$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD < file>..." to unstage)
+
+        deleted:    bar.txt
+
+Changes not staged for commit:
+  (use "git add/rm < file>..." to update what will be committed)
+  (use "git checkout -- < file>..." to discard changes in working directory)
+
+        deleted:    foo.txt</code></pre>
+
+            <pre class="fragment"><code class="bash">$ git checkout -- foo.txt</code></pre>
+
+            <pre class="fragment"><code class="bash">On branch master
+Changes to be committed:
+  (use "git reset HEAD < file>..." to unstage)
+
+        deleted:    bar.txt
+            </code></pre>
+
+            <pre class="fragment"><code class="bash">$ ls
+foo.txt</code></pre>
           </section>
         </section>
       </div>
