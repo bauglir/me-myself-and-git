@@ -45,7 +45,7 @@
           <h3>An opiniated talk on Git and workflows</h3>
           <p>
             <small>
-              Created by <a href="http://joriskraak.nl">Joris Kraak</a> /
+              By <a href="http://joriskraak.nl">Joris Kraak</a> /
               <a href="http://twitter.com/joriskraak">@joriskraak</a> using
               <a href="http://lab.hakim.se/reveal-js">Reveal.js</a>
             </small>
@@ -69,12 +69,15 @@
           <h1>Agenda</h1>
 
           <section>
-            <p>Why Git?</p>
+            <ul>
+              <li>Why Git?</li>
+              <li>Structure</li>
+            </ul>
           </section>
         </section>
 
         <section>
-          <h1>Why Git?</h1>
+          <h1>Why <a href="http://git-scm.com/">Git</a>?</h1>
 
           <section>
             <h2>Version Control</h2>
@@ -105,6 +108,54 @@
                 <li>Individual copies provide redundancy</li>
                 <li>A central repository can still be used, such as provided by GitHub</li>
                 <li>Server copy is typically 'bare'</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Structure</h1>
+
+            <aside class="notes">
+              <ul>
+                <li>Differences between centralized/distributed architecture</li>
+                <li>Closer look at the structure of a repository</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section data-background="images/centralized_version_control.svg">
+            <aside class="notes">
+              <ul>
+                <li>Centralized version control uses a single master</li>
+                <li>Master has full history</li>
+                <li>Clients check out the current state into working copy</li>
+                <li>Changes from working copies are committed straight back to the master</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section data-background="images/distributed_version_control.svg">
+            <aside class="notes">
+              <ul>
+                <li>Every client has the full history of all files it knows about</li>
+                <li>Clients check out a working copy from their own history</li>
+                <li>Changes are committed back to the local repository</li>
+                <li>Clients can share history using push and pull/fetch mechanics</li>
+                <li>Fetch retrieves history from another place</li>
+                <li>Pull retrieves history from another place and synchronizes it with local history</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section data-background="images/distributed_client_lifecycle.svg">
+            <aside class="notes">
+              <ul>
+                <li>State is checked out from the version database</li>
+                <li>Changes are added to the stage</li>
+                <li>Staged changes are reset back to the working copy</li>
+                <li>Staged changes are comitted to the version database</li>
               </ul>
             </aside>
           </section>
