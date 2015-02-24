@@ -1,52 +1,611 @@
 <!doctype html>
-<html>
-	<head>
+<html lang="en">
 
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="chrome=1">
-		<title>reveal.js - The HTML Presentations Framework</title>
+  <head>
+    <meta charset="utf-8">
 
-		<link rel="stylesheet" href="css/normalize.css">
-		<link rel="stylesheet" href="css/main.css">
+    <title>Me, Myself &amp; Git</title>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="An opiniated talk on Git and workflows">
+    <meta name="author" content="Joris Kraak">
 
-		<!--[if lt IE 9]>
-		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-	</head>
-	<body>
-		<div class="wrapper">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-			<header>
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
 
-				<h1>reveal.js</h1>
-				<p>
-					The HTML Presentation Framework &mdash; Site coming soon
-				</p>
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-			</header>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
 
-			<footer>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
 
-				<p>
-					<a href="http://lab.hakim.se/reveal-js">Try the demo</a>
-					<a href="https://github.com/hakimel/reveal.js/releases">Download</a>
-				</p>
+  <body>
 
-			</footer>
+    <div class="reveal">
 
-		</div>
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Me, Myself &amp; Git</h1>
+          <h3>An opiniated talk on Git and workflows</h3>
+          <p>
+            <small>
+              By <a href="http://joriskraak.nl">Joris Kraak</a> /
+              <a href="http://twitter.com/joriskraak">@joriskraak</a> using
+              <a href="http://lab.hakim.se/reveal-js">Reveal.js</a>
+            </small>
+          </p>
+          <p>
+            <small>Available online at
+              <a href="https://bauglir.github.io/me-myself-and-git">
+                https://bauglir.github.io/me-myself-and-git
+              </a>
+            </small>
+          </p>
 
-		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          <aside class="notes">
+            <p>MATLAB tool developer at GN ReSound by day</p>
+            <p>Web application developer by night</p>
+            <p>Earliest recorded Git use early 2009, probably somewhere in 2008</p>
+          </aside>
+        </section>
 
-		  ga('create', 'UA-43375306-1', 'revealjs.com');
-		  ga('send', 'pageview');
-		</script>
-	</body>
+        <section>
+          <h1>Agenda</h1>
+
+          <section>
+            <ul>
+              <li>Why Git?</li>
+              <li>Structure</li>
+              <li>Git in Action</li>
+              <li>Collaboration</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <h1>Why <a href="http://git-scm.com/">Git</a>?</h1>
+
+          <section>
+            <h2>Version Control</h2>
+
+            <p class="fragment">Track history</p>
+            <p class="fragment">Collaboration</p>
+            <p class="fragment">Proposal evaluation</p>
+            <p class="fragment">Backup purposes</p>
+
+            <aside class="notes">
+              <p>Mostly suitable for plain-text files, such as source-code</p>
+              <p>Try to avoid putting (large) binary files in a repository</p>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Distributed</h2>
+
+            <p class="fragment">Every user has their own copy of the repository</p>
+
+            <p class="fragment">Changes can be shared directly between repositories</p>
+
+            <p class="fragment">The (optional) server copy is not <em>really</em> special</p>
+
+            <aside class="notes">
+              <ul>
+                <li>Distributed versus centralized (such as CVS, Subversion)</li>
+                <li>Individual copies provide redundancy</li>
+                <li>A central repository can still be used, such as provided by GitHub</li>
+                <li>Server copy is typically 'bare'</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Structure</h1>
+
+            <aside class="notes">
+              <ul>
+                <li>Differences between centralized/distributed architecture</li>
+                <li>Closer look at the structure of a repository</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section data-background="images/centralized_version_control.svg">
+            <aside class="notes">
+              <ul>
+                <li>Centralized version control uses a single master</li>
+                <li>Master has full history</li>
+                <li>Clients check out the current state into working copy</li>
+                <li>Changes from working copies are committed straight back to the master</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section data-background="images/distributed_version_control.svg">
+            <aside class="notes">
+              <ul>
+                <li>Every client has the full history of all files it knows about</li>
+                <li>Clients check out a working copy from their own history</li>
+                <li>Changes are committed back to the local repository</li>
+                <li>Clients can share history using push and pull/fetch mechanics</li>
+                <li>Fetch retrieves history from another place</li>
+                <li>Pull retrieves history from another place and synchronizes it with local history</li>
+              </ul>
+            </aside>
+          </section>
+
+          <section data-background="images/distributed_client_lifecycle.svg">
+            <aside class="notes">
+              <ul>
+                <li>State is checked out from the version database</li>
+                <li>Changes are added to the stage</li>
+                <li>Staged changes are reset back to the working copy</li>
+                <li>Staged changes are comitted to the version database</li>
+                <li>
+                  Some 'exceptions to the rule' exist, e.g. new files being
+                  added to the stage are removed using
+                  <code class="bash">
+                    git rm --cached
+                  </code>
+                </li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Git in Action</h1>
+
+            <div class="fragment">
+              <h2>Create a repository</h2>
+              <pre><code class="bash">$ git init my-project && cd my-project
+Initialized empty Git repository in /home/jkraak/Projects/my-project/.git/
+</code></pre>
+            </div>
+
+            <div class="fragment">
+              <h2>Or clone an existing one</h2>
+              <pre><code class="bash">$ git clone git@github.com:bauglir/me-myself-and-git.git
+Cloning into 'me-myself-and-git'...
+remote: Counting objects: 7127, done.
+remote: Total 7127 (delta 0), reused 0 (delta 0), pack-reused 7127
+Receiving objects: 100% (7127/7127), 5.38 MiB | 2.52 MiB/s, done.
+Resolving deltas: 100% (3767/3767), done.
+Checking connectivity... done.
+</code></pre>
+            </div>
+          </section>
+
+          <section>
+            <h2>Add some files</h2>
+
+            <pre class="fragment"><code class="bash">$ echo 'foo' > foo.txt</code></pre>
+            <pre class="fragment"><code class="bash">$ echo 'bar' > bar.txt</code></pre>
+            <pre class="fragment"><code class="bash">$ git status
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add < file>..." to include in what will be committed)
+
+          bar.txt
+          foo.txt
+
+nothing added to commit but untracked files present (use "git add" to track)</code></pre>
+
+            <p class="fragment">
+              <code>git status</code> is your friend! It provides hints on what to do next
+            </p>
+          </section>
+
+          <section>
+            <pre><code class="bash">$ git add foo.txt</code></pre>
+            <pre class="fragment"><code class="bash">$ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached < file>..." to unstage)
+
+        new file:   foo.txt
+        new file:   bar.txt</code></pre>
+            <pre class="fragment"><code>$ git commit -m 'Add foo and bar literature'
+[master (root-commit) 3f91579] Add foo and bar literature
+ 2 files changed, 2 insertions(+)
+ create mode 100644 bar.txt
+ create mode 100644 foo.txt</code></pre>
+
+            <aside class="notes">
+              <p>
+                Typically the commit message is not directly entered at the
+                command line. When leaving off the <code>-m</code> flag your
+                default editor will be opened to provide a commit message.
+              </p>
+              <p>Note the hashes, we'll talk about those later</p>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Making Changes</h2>
+
+            <pre><code class="bash">$ echo 'baz' >> foo.txt</code></pre>
+            <pre class="fragment"><code class="bash">On branch master
+Changes not staged for commit:
+  (use "git add < file>..." to update what will be committed)
+  (use "git checkout -- < file>..." to discard changes in working directory)
+
+        modified:   foo.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")</code></pre>
+
+            <pre class="fragment"><code class="bash">$ git diff
+diff --git a/foo.txt b/foo.txt
+index 257cc56..0c071e1 100644
+--- a/foo.txt
++++ b/foo.txt
+@@ -1 +1,2 @@
+ foo
+ +baz</code></pre>
+
+            <pre class="fragment"><code class="bash">$ git add -u && git commit -m 'Add baz reference'
+[master e981856] Add baz reference
+ 1 file changed, 1 insertion(+)</code></pre>
+
+            <aside class="notes">
+              <p>
+                Note the <code>-u</code> which only adds changes to files
+                already being tracked
+              </p>
+              <p>By repeating this process the history is slowly built up</p>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Viewing the history</h2>
+
+            <pre><code class="bash">$ git log
+commit e9818560edc7f0cf41317f15eec28167e507a3f7
+Author: Joris Kraak < me@joriskraak.nl>
+Date:   Tue Feb 24 12:20:25 2015 +0100
+
+    Add baz reference
+
+commit 3f91579623ef93cde0ebf5300b6da99bd70fa835
+Author: Joris Kraak < me@joriskraak.nl>
+Date:   Tue Feb 24 12:08:31 2015 +0100
+
+    Add foo and bar literature</code></pre>
+
+          </section>
+
+          <section>
+            <h2>Undoing Mistakes</h2>
+
+            <pre><code class="bash">$ git rm *
+rm 'bar.txt'
+rm 'foo.txt'</code></pre>
+
+            <pre class="fragment"><code class="bash">$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD < file>..." to unstage)
+
+          deleted:    bar.txt
+          deleted:    foo.txt
+</code></pre>
+
+            <pre class="fragment"><code class="bash">$ git reset HEAD foo.txt
+Unstaged changes after reset:
+D       foo.txt</code></pre>
+
+            </section>
+            <section>
+            <pre><code class="bash">$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD < file>..." to unstage)
+
+        deleted:    bar.txt
+
+Changes not staged for commit:
+  (use "git add/rm < file>..." to update what will be committed)
+  (use "git checkout -- < file>..." to discard changes in working directory)
+
+        deleted:    foo.txt</code></pre>
+
+            <pre class="fragment"><code class="bash">$ git checkout -- foo.txt</code></pre>
+
+            <pre class="fragment"><code class="bash">On branch master
+Changes to be committed:
+  (use "git reset HEAD < file>..." to unstage)
+
+        deleted:    bar.txt
+            </code></pre>
+
+            <pre class="fragment"><code class="bash">$ ls
+foo.txt</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Collaboration</h1>
+
+            <p class="fragment">Branches make it easier to collaborate on a shared code base</p>
+
+            <p class="fragment">
+              @tabqwerty:
+              <q cite="https://twitter.com/tabqwerty/status/45611899953491968">
+                <a href="https://twitter.com/tabqwerty/status/45611899953491968">
+                  git gets easier once you get the basic idea that branches are homeomorphic endofunctors mapping submanifolds of a Hilbert space.
+                </a>
+              </q>
+            </p>
+
+            <p class="fragment">
+              What made Git easy for me is visualizing everything as a tree
+            </p>
+
+            <pre class="fragment"><code class="bash">$ git log --graph --oneline --decorate --all</code></pre>
+            <p class="fragment">
+              or get a GUI capable of showing the history formatted as a tree
+            </p>
+
+            <aside class="notes">
+              <p>Branches make sure 'conflicts' arise less often</p>
+              <p>Visualize the history as a tree that grows outwards and inward</p>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Workflow</h2>
+
+            <p>Git is very flexible with regards to picking a workflow</p>
+
+            <p>
+              Popular choices are:
+              <ul>
+                <li><a href="http://nvie.com/posts/a-successful-git-branching-model">Git Flow</a></li>
+                <li><a href="http://scottchacon.com/2011/08/31/github-flow.html">GitHub Flow</a></li>
+              </ul>
+            </p>
+
+          </section>
+
+          <section>
+            <h2>My Flow</h2>
+
+            <p class="fragment">Keep a single master branch</p>
+            <p class="fragment">
+              Implement new features/bug fixes taking more than a single commit
+              on a separate branch, then merge into master
+            </p>
+            <p class="fragment">
+              Before merging, 'rebase' feature branch on master and fix any
+              conflicts that may arise
+            </p>
+            <p class="fragment">
+              Make the merge back into master explicit by forcing a merge commit
+              using <code>git merge --no-ff</code>
+            </p>
+            <p class="fragment">
+              This results in a very clean history where the work on features
+              stays clearly visible after a merge
+            </p>
+
+            <a class="fragment" href="http://mislav.uniqpath.com/2013/02/merge-vs-rebase/">
+              http://mislav.uniqpath.com/2013/02/merge-vs-rebase/
+            </a>
+          </section>
+
+          <section>
+            <h2>My Flow in Action</h2>
+
+            <pre><code class="bash">$ git checkout -b my-branch
+Switched to a new branch 'my-branch'</code></pre>
+
+            <pre><code class="bash">$ cp foo.txt quuz.txt
+$ git add quuz.txt && git commit -m 'Add quuz literature'
+[my-branch cb4c59e] Add quuz literature
+ 1 file changed, 2 insertions(+)
+ create mode 100644 quuz.txt</code></pre>
+
+            <pre><code class="bash">$ git checkout master
+Switched to branch 'master'
+$ cp foo.txt quux.txt
+$ git add quux.txt && git commit -m 'Add quux literature'
+[master afda51f] Add quux literature
+ 1 file changed, 2 insertions(+)
+ create mode 100644 quux.txt
+$ git checkout my-branch
+Switched to branch 'my-branch'</code></pre>
+          </section>
+
+          <section>
+            <p>'my-branch' does not yet contain the quux literature</p>
+            <pre><code class="bash">$ ls
+bar.txt foo.txt quuz.txt</code></pre>
+
+            <p class="fragment">Take 'my-branch' and attach it to the new top of the tree</p>
+            <pre class="fragment"><code class="bash">$ git rebase master my-branch
+First, rewinding head to replay your work on top of it...
+Applying: Add quuz literature</code></pre>
+            <pre class="fragment"><code class="bash">$ ls
+bar.txt foo.txt quux.txt quuz.txt</code></pre>
+
+            <p class="fragment">Finally merge 'my-branch' into 'master'</p>
+            <pre class="fragment"><code class="bash">$ git checkout master
+Switched to branch 'master'
+$ git merge --no-ff my-branch -m 'Merge branch my-branch'
+Merge made by the 'recursive' strategy.
+ quuz.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+ create mode 100644 quuz.txt</code></pre>
+          </section>
+
+          <section>
+            <h2>Updated History</h2>
+            <pre><code class="bash">*   f08e76f (HEAD, master) Merge branch my-branch
+|\
+| * 29233b8 (my-branch) Add quuz literature
+|/
+* afda51f Add quux literature
+* e981856 Add baz reference
+* 3f91579 Add foo and bar literature</code></pre>
+
+            <aside class="notes">
+              <p>
+                Note the commit SHAs and the fact that branches are just labels
+                for them
+              </p>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Sharing Work</h2>
+
+            <p>Work can be shared using 'remotes'</p>
+
+            <p class="fragment">
+              The 'server' is typically referred to as 'origin'
+              <pre class="fragment"><code class="bash">git remote add remote_name remote_uri</code></pre>
+              <p class="fragment">When a repository has been cloned, the 'origin' has been automatically set</p>
+            </p>
+
+            <p class="fragment">Some commands for working with remotes</p>
+            <pre class="fragment"><code class="bash">$ git remote -v</code></pre>
+            <pre class="fragment"><code class="bash">$ git fetch remote_name branch_name</code></pre>
+            <pre class="fragment"><code class="bash">$ git pull remote_name branch_name</code></pre>
+            <pre class="fragment"><code class="bash">$ git push remote_name branch_name</code></pre>
+          </section>
+
+          <section>
+            <h2><a href="https://github.com">GitHub</a></h2>
+
+            <p>A website hosting Git repositories</p>
+
+            <p class="fragment">Provides online functionality for branching and merging (Pull Requests)</p>
+
+            <p class="fragment">Issue tracking capable of linking to code</p>
+
+            <p class="fragment">Typically used as the 'server'</p>
+          </section>
+        </section>
+
+        <section>
+          <h1>SSH</h1>
+
+          <p>Git typically communicates over SSH</p>
+
+          <p class="fragment">SSH requires public/private key pairs</p>
+
+          <p class="fragment">These have to be in openSSH format</p>
+
+          <p class="fragment">
+            For generation use either the <a href="https://windows.github.com">GitHub Client</a> or
+            <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTYGen</a>
+          </p>
+
+          <p class="fragment">The private key should be password protected and kept safe</p>
+
+          <p class="fragment">The public key can be distributed where necessary</p>
+
+          <p class="fragment">
+            To cache the private key password, solutions such as
+            <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Pageant</a>
+            can be used
+          </p>
+        </section>
+
+        <section>
+          <h1>Tips &amp; Tricks</h1>
+
+          <section>
+            <ul>
+              <li>Never rebase 'published' commits</li>
+              <li>Branches are just labels for commit hashes</li>
+              <li>Git only tracks files, to include empty directories put a '.gitkeep' file in them</li>
+              <li>Adding <code class="bash">-p</code> to most operations allows more granular control (i.e. within files)</li>
+              <li>Get comfortable with the command line, for GUI <a href="https://www.atlassian.com/software/sourcetree/">SourceTree</a> seems nice</li>
+            </ul>
+          </section>
+          <section>
+            <ul>
+              <li>In case SSH is blocked use <code class="bash">git config --global url.https://.insteadOf git://</code></li>
+              <li><code class="bash">git config --global color.ui true</code> forces pretty colors</li>
+              <li><code class="bash">git config --global pull.rebase true</code> forces a pull to always 'rebase' instead of 'merge'</li>
+              <li><code class="bash">merge</code>, <code class="bash">rebase</code>, etc. have an <code class="bash">--abort</code> flag</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <h1>Questions?</h1>
+        </section>
+
+        <section>
+          <h1>Useful Links</h1>
+
+          <ul>
+            <li><a href="http://git-scm.org">Git's official site</a></li>
+            <li><a href="http://try.github.com">Try Git</a> - An interactive tutorial</li>
+            <li><a href="http://mislav.uniqpath.com/2013/02/merge-vs-rebase/">Merge Vs. Rebase</a></li>
+            <li><a href="http://nvie.com/posts/a-successful-git-branching-model">Git Flow</a></li>
+            <li><a href="http://scottchacon.com/2011/08/31/github-flow.html">GitHub Flow</a></li>
+            <li><a href="https://www.atlassian.com/software/sourcetree">SourceTree</a></li>
+            <li><a href="https://windows.github.com">GitHub Client</a></li>
+            <li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PuTTYGen</a></li>
+          </ul>
+        </section>
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+        slideNumber: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
 </html>
