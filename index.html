@@ -423,23 +423,25 @@ foo.txt</code></pre>
           <section>
             <h2>My Flow in Action</h2>
 
+            <p>Let's force two branches to diverge</p>
+
             <pre><code class="bash">$ git checkout -b my-branch
 Switched to a new branch 'my-branch'</code></pre>
 
-            <pre><code class="bash">$ cp foo.txt quuz.txt
+            <pre class="fragment"><code class="bash">$ cp foo.txt quuz.txt
 $ git add quuz.txt && git commit -m 'Add quuz literature'
 [my-branch cb4c59e] Add quuz literature
  1 file changed, 2 insertions(+)
  create mode 100644 quuz.txt</code></pre>
 
-            <pre><code class="bash">$ git checkout master
-Switched to branch 'master'
-$ cp foo.txt quux.txt
+            <pre class="fragment"><code class="bash">$ git checkout master
+Switched to branch 'master'</code></pre>
+<pre class="fragment"><code class="bash">$ cp foo.txt quux.txt
 $ git add quux.txt && git commit -m 'Add quux literature'
 [master afda51f] Add quux literature
  1 file changed, 2 insertions(+)
- create mode 100644 quux.txt
-$ git checkout my-branch
+ create mode 100644 quux.txt</code></pre>
+<pre class="fragment"><code class="bash">$ git checkout my-branch
 Switched to branch 'my-branch'</code></pre>
           </section>
 
@@ -556,7 +558,7 @@ Merge made by the 'recursive' strategy.
               <li>In case SSH is blocked use <code class="bash">git config --global url.https://.insteadOf git://</code></li>
               <li><code class="bash">git config --global color.ui true</code> forces pretty colors</li>
               <li><code class="bash">git config --global pull.rebase true</code> forces a pull to always 'rebase' instead of 'merge'</li>
-              <li><code class="bash">merge</code>, <code class="bash">rebase</code>, etc. have an <code class="bash">--abort</code> flag</li>
+              <li><code class="bash">merge</code>, <code class="bash">rebase</code>, etc. have a <code class="bash">--abort</code> flag</li>
             </ul>
           </section>
         </section>
