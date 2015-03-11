@@ -492,15 +492,75 @@ Merge made by the 'recursive' strategy.
 
             <p class="fragment">
               The 'server' is typically referred to as 'origin'
-              <pre class="fragment"><code class="bash">git remote add remote_name remote_uri</code></pre>
-              <p class="fragment">When a repository has been cloned, the 'origin' has been automatically set</p>
             </p>
 
-            <p class="fragment">Some commands for working with remotes</p>
-            <pre class="fragment"><code class="bash">$ git remote -v</code></pre>
-            <pre class="fragment"><code class="bash">$ git fetch remote_name branch_name</code></pre>
-            <pre class="fragment"><code class="bash">$ git pull remote_name branch_name</code></pre>
-            <pre class="fragment"><code class="bash">$ git push remote_name branch_name</code></pre>
+            <p class="fragment">
+              When cloning a repository, the 'origin' is automatically set
+            </p>
+          </section>
+
+          <section>
+            <h2>Sharing Work in Action</h2>
+
+            <p>First create a 'server' repository</p>
+            <pre class="fragment"><code class="bash">$ git init --bare server</code></pre>
+
+            <p class="fragment">Then add the 'server' as a remote</p>
+            <pre class="fragment"><code class="bash">$ git remote add origin server</code></pre>
+
+            <p class="fragment">Verify the remotes of the current repository</p>
+            <pre class="fragment"><code class="bash">$ git remote -v
+origin  server (fetch)
+origin  server (push)</code></pre>
+
+            <p class="fragment">Publish our local work</p>
+            <pre class="fragment"><code class="bash">$ git push origin master</code></pre>
+
+            <aside class="notes">
+              <ul>
+                <li>Nested Git repositories are possible</li>
+                <li>
+                  Pay attention to remote and branch names! You will not be the
+                  first person to push local_branch to the remote master!
+                </li>
+              </ul>
+            </aside>
+          </section>
+
+          <section>
+            <h2>Local and remote history</h2>
+
+            <pre><code class="bash">* deadbeef (origin/foo) Remote only work
+| *   f08e76f (HEAD, master, origin/master) Merge branch my-branch
+| |\
+| | * 29233b8 (my-branch) Add quuz literature
+| |/
+|/
+* afda51f Add quux literature
+* e981856 Add baz reference
+* 3f91579 Add foo and bar literature</code></pre>
+
+            <p class="fragment">
+              <code>git fetch remote_name branch_name</code> synchronizes local
+              branch history with remote
+            </p>
+
+            <p class="fragment">
+              <code>git pull remote_name branch_name</code> fetches and merges
+              or rebases a local branch with its remote equivalent
+            </p>
+
+            <p class="fragment">
+              <code>git push remote_name branch_name</code> publishes local
+              history to remote repository
+            </p>
+
+            <aside class="notes">
+              <ul>
+                <li>Typically form a single tree</li>
+                <li>How do the different commands change what the graph looks like?</li>
+              </ul>
+            </aside>
           </section>
 
           <section>
