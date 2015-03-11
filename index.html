@@ -547,14 +547,22 @@ Merge made by the 'recursive' strategy.
           <section>
             <ul>
               <li>Never rebase 'published' commits</li>
+              <li>Same goes for <code>git commit --amend</code></li>
               <li>Branches are just labels for commit hashes</li>
-              <li>Git only tracks files, to include empty directories put a '.gitkeep' file in them</li>
-              <li>Adding <code class="bash">-p</code> to most operations allows more granular control (i.e. within files)</li>
-              <li>Get comfortable with the command line, for GUI <a href="https://www.atlassian.com/software/sourcetree/">SourceTree</a> seems nice</li>
+              <li>Git only tracks files, to include empty directories put a `.gitkeep` file in them</li>
             </ul>
           </section>
           <section>
             <ul>
+              <li>Adding <code class="bash">-p</code> to most operations allows more granular control (i.e. within files)</li>
+              <li>Get comfortable with the command line, for GUI <a href="https://www.atlassian.com/software/sourcetree/">SourceTree</a> seems nice</li>
+              <li><code>git config --global alias.graph 'log --graph --oneline --decorate --all'</code></li>
+              <li>The stash (<code>git stash</code>) allows temporary storage of in-progress work, useful when rebasing</li>
+            </ul>
+          </section>
+          <section>
+            <ul>
+              <li><code>git push -u remote_name branch_name</code> 'tracks' remote branches</li>
               <li>In case SSH is blocked use <code class="bash">git config --global url.https://.insteadOf git://</code></li>
               <li><code class="bash">git config --global color.ui true</code> forces pretty colors</li>
               <li><code class="bash">git config --global pull.rebase true</code> forces a pull to always 'rebase' instead of 'merge'</li>
